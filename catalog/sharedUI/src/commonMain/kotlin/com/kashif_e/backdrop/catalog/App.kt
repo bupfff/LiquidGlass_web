@@ -17,8 +17,10 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -49,7 +51,7 @@ fun BackdropDemoScreen() {
 }
 
 @Composable
- fun ShaderPlayGround() {
+fun ShaderPlayGround(onBack: () -> Unit = {}) {
     val gradientBackdrop = CanvasBackdrop {
         drawRect(
             brush = Brush.linearGradient(
@@ -104,7 +106,7 @@ fun BackdropDemoScreen() {
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
-                .padding(16.dp),
+                .padding(start = 16.dp, end = 16.dp, top = 72.dp, bottom = 16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             DemoSection("Basic Blur") {
@@ -148,6 +150,14 @@ fun BackdropDemoScreen() {
             }
 
             Spacer(modifier = Modifier.height(32.dp))
+        }
+
+        TextButton(
+            onClick = onBack,
+            modifier = Modifier.align(Alignment.TopStart).padding(8.dp),
+            colors = ButtonDefaults.textButtonColors(contentColor = Color.White)
+        ) {
+            Text("← Back to catalog")
         }
     }
 }

@@ -9,11 +9,13 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.BasicText
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -40,11 +42,16 @@ import kmpliquidglass.catalog.sharedui.generated.resources.lions
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 
+internal val LocalPickBackdropImage = staticCompositionLocalOf<() -> Unit> {
+    error("BackdropDemoScaffold image picker is not available")
+}
+
 @Composable
 fun BackdropDemoScaffold(
     modifier: Modifier = Modifier,
     initialPainter: Painter = painterResource(Res.drawable.lions),
     onBack: (() -> Unit)? = null,
+    imagePickerLabel: String? = "Pick an image",
     content: @Composable BoxScope.(backdrop: LayerBackdrop) -> Unit
 ) {
     Box(
@@ -92,7 +99,11 @@ fun BackdropDemoScaffold(
             )
         }
 
-        content(backdrop)
+        CompositionLocalProvider(
+            LocalPickBackdropImage provides { pickerLauncher.launch() }
+        ) {
+            content(backdrop)
+        }
 
 
         if (onBack != null) {
@@ -112,21 +123,23 @@ fun BackdropDemoScaffold(
             }
         }
 
-        LiquidButton(
-            { pickerLauncher.launch() },
-            backdrop,
-            Modifier
-                .padding(16f.dp)
-                .navigationBarsPadding()
-                .height(56f.dp)
-                .align(Alignment.BottomCenter),
-            tint = Color(0xFF0088FF)
-        ) {
-            BasicText(
-                "Pick an image",
-                Modifier.padding(horizontal = 8f.dp),
-                style = TextStyle(Color.White, 16f.sp)
-            )
+        if (imagePickerLabel != null) {
+            LiquidButton(
+                { pickerLauncher.launch() },
+                backdrop,
+                Modifier
+                    .padding(16f.dp)
+                    .navigationBarsPadding()
+                    .height(56f.dp)
+                    .align(Alignment.BottomCenter),
+                tint = Color(0xFF0088FF)
+            ) {
+                BasicText(
+                    imagePickerLabel,
+                    Modifier.padding(horizontal = 8f.dp),
+                    style = TextStyle(Color.White, 16f.sp)
+                )
+            }
         }
     }
 }

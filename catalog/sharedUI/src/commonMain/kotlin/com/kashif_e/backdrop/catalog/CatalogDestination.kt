@@ -1,6 +1,7 @@
 package com.kashif_e.backdrop.catalog
 
 enum class CatalogDestination {
+    PhoneDemo,
     Home,
 
     Buttons,

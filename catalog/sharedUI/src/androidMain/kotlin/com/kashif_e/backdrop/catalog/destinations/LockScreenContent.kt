@@ -34,6 +34,7 @@ import org.jetbrains.compose.resources.painterResource
 @Composable
 actual fun LockScreenContent(onBack: () -> Unit) {
     BackdropDemoScaffold(
+        onBack = onBack,
         initialPainter = painterResource(Res.drawable.system_home_screen_light)
     ) { backdrop ->
         var offset by remember { mutableStateOf(Offset.Zero) }

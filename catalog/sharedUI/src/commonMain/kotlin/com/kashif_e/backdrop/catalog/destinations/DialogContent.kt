@@ -107,7 +107,7 @@ fun DialogContent(onBack: () -> Unit = {}) {
                     Modifier
                         .clip(RoundedCornerShape(100.dp))
                         .background(containerColor.copy(0.2f))
-                        .clickable {}
+                        .clickable(onClick = onBack)
                         .height(48f.dp)
                         .weight(1f)
                         .padding(horizontal = 16f.dp),
@@ -123,7 +123,7 @@ fun DialogContent(onBack: () -> Unit = {}) {
                     Modifier
                         .clip(RoundedCornerShape(100.dp))
                         .background(accentColor)
-                        .clickable {}
+                        .clickable(onClick = onBack)
                         .height(48f.dp)
                         .weight(1f)
                         .padding(horizontal = 16f.dp),

@@ -39,6 +39,10 @@ import org.jetbrains.compose.resources.painterResource
 @Composable
 fun AllComponentsContent(onBack: () -> Unit = {}) {
     BackdropDemoScaffold(onBack = onBack) { backdrop ->
+        var buttonMessage by rememberSaveable {
+            mutableStateOf("Tap a button to try its surface.")
+        }
+
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -59,7 +63,7 @@ fun AllComponentsContent(onBack: () -> Unit = {}) {
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     LiquidButton(
-                        {},
+                        { buttonMessage = "Transparent button tapped." },
                         backdrop
                     ) {
                         BasicText(
@@ -68,7 +72,7 @@ fun AllComponentsContent(onBack: () -> Unit = {}) {
                         )
                     }
                     LiquidButton(
-                        {},
+                        { buttonMessage = "Surface button tapped." },
                         backdrop,
                         surfaceColor = Color.White.copy(0.3f)
                     ) {
@@ -78,7 +82,7 @@ fun AllComponentsContent(onBack: () -> Unit = {}) {
                         )
                     }
                     LiquidButton(
-                        {},
+                        { buttonMessage = "Blue tinted button tapped." },
                         backdrop,
                         tint = Color(0xFF0088FF)
                     ) {
@@ -88,6 +92,10 @@ fun AllComponentsContent(onBack: () -> Unit = {}) {
                         )
                     }
                 }
+                BasicText(
+                    buttonMessage,
+                    style = TextStyle(Color.White.copy(alpha = 0.8f), 13.sp)
+                )
             }
 
 
@@ -104,14 +112,20 @@ fun AllComponentsContent(onBack: () -> Unit = {}) {
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         LiquidToggle({ toggle1 }, { toggle1 = it }, backdrop)
-                        BasicText("Toggle Off", style = TextStyle(Color.White, 14.sp))
+                        BasicText(
+                            if (toggle1) "Toggle On" else "Toggle Off",
+                            style = TextStyle(Color.White, 14.sp)
+                        )
                     }
                     Row(
                         horizontalArrangement = Arrangement.spacedBy(12.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         LiquidToggle({ toggle2 }, { toggle2 = it }, backdrop)
-                        BasicText("Toggle On", style = TextStyle(Color.White, 14.sp))
+                        BasicText(
+                            if (toggle2) "Toggle On" else "Toggle Off",
+                            style = TextStyle(Color.White, 14.sp)
+                        )
                     }
                 }
             }

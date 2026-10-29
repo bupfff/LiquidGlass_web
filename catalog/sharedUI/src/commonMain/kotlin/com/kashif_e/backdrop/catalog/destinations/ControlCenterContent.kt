@@ -4,6 +4,7 @@ import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.EaseIn
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.draggable
 import androidx.compose.foundation.gestures.rememberDraggableState
@@ -25,6 +26,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
@@ -41,6 +43,7 @@ import androidx.compose.ui.graphics.GraphicsLayerScope
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.layout
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastCoerceAtLeast
 import androidx.compose.ui.util.fastCoerceIn
@@ -79,6 +82,19 @@ fun ControlCenterContent(onBack: () -> Unit = {}) {
 
     val inactiveItemColor = Color.White.copy(0.2f)
     val activeItemColor = accentColor
+
+    var activeControls by remember { mutableStateOf(setOf(1, 2)) }
+    fun Modifier.controlInteraction(index: Int): Modifier =
+        clickable(role = Role.Switch) {
+            activeControls =
+                if (index in activeControls) activeControls - index
+                else activeControls + index
+        }.drawWithContent {
+            drawContent()
+            if (index in activeControls) {
+                drawRect(activeItemColor.copy(alpha = 0.28f))
+            }
+        }
 
     val airplaneModeIcon = painterResource(Res.drawable.ic_cyclone)
     val iconColorFilter = ColorFilter.tint(Color.White)
@@ -239,6 +255,7 @@ fun ControlCenterContent(onBack: () -> Unit = {}) {
                             .paint(airplaneModeIcon, colorFilter = iconColorFilter)
                             .size(innerItemSize)
                             .align(Alignment.TopStart)
+                            .controlInteraction(0)
                     )
                     Box(
                         Modifier
@@ -248,6 +265,7 @@ fun ControlCenterContent(onBack: () -> Unit = {}) {
                             .paint(airplaneModeIcon, colorFilter = iconColorFilter)
                             .size(innerItemSize)
                             .align(Alignment.TopEnd)
+                            .controlInteraction(1)
                     )
                     Box(
                         Modifier
@@ -257,6 +275,7 @@ fun ControlCenterContent(onBack: () -> Unit = {}) {
                             .paint(airplaneModeIcon, colorFilter = iconColorFilter)
                             .size(innerItemSize)
                             .align(Alignment.BottomStart)
+                            .controlInteraction(2)
                     )
                 }
                 Box(
@@ -270,6 +289,7 @@ fun ControlCenterContent(onBack: () -> Unit = {}) {
                             layerBlock = glassLayer,
                             onDrawSurface = glassSurface
                         )
+                        .controlInteraction(3)
                         .size(itemTwoSpanSize)
                 )
             }
@@ -299,6 +319,7 @@ fun ControlCenterContent(onBack: () -> Unit = {}) {
                                     layerBlock = glassLayer,
                                     onDrawSurface = glassSurface
                                 )
+                                .controlInteraction(4)
                                 .paint(airplaneModeIcon, colorFilter = iconColorFilter)
                                 .size(itemSize)
                         )
@@ -313,6 +334,7 @@ fun ControlCenterContent(onBack: () -> Unit = {}) {
                                     layerBlock = glassLayer,
                                     onDrawSurface = glassSurface
                                 )
+                                .controlInteraction(5)
                                 .paint(airplaneModeIcon, colorFilter = iconColorFilter)
                                 .size(itemSize)
                         )
@@ -330,6 +352,7 @@ fun ControlCenterContent(onBack: () -> Unit = {}) {
                                 shadow = null,
                                 layerBlock = glassLayer
                             )
+                            .controlInteraction(6)
                             .size(itemTwoSpanSize, itemSize)
                     )
                 }
@@ -349,6 +372,7 @@ fun ControlCenterContent(onBack: () -> Unit = {}) {
                                 layerBlock = glassLayer,
                                 onDrawSurface = glassSurface
                             )
+                            .controlInteraction(7)
                             .size(itemSize, itemTwoSpanSize)
                     )
                     Box(
@@ -362,6 +386,7 @@ fun ControlCenterContent(onBack: () -> Unit = {}) {
                                 layerBlock = glassLayer,
                                 onDrawSurface = glassSurface
                             )
+                            .controlInteraction(8)
                             .size(itemSize, itemTwoSpanSize)
                     )
                 }
@@ -384,6 +409,7 @@ fun ControlCenterContent(onBack: () -> Unit = {}) {
                             layerBlock = glassLayer,
                             onDrawSurface = glassSurface
                         )
+                        .controlInteraction(9)
                         .size(itemTwoSpanSize)
                 )
 
@@ -403,6 +429,7 @@ fun ControlCenterContent(onBack: () -> Unit = {}) {
                                     layerBlock = glassLayer,
                                     onDrawSurface = glassSurface
                                 )
+                                .controlInteraction(10)
                                 .paint(airplaneModeIcon, colorFilter = iconColorFilter)
                                 .size(itemSize)
                         )
@@ -417,6 +444,7 @@ fun ControlCenterContent(onBack: () -> Unit = {}) {
                                     layerBlock = glassLayer,
                                     onDrawSurface = glassSurface
                                 )
+                                .controlInteraction(11)
                                 .paint(airplaneModeIcon, colorFilter = iconColorFilter)
                                 .size(itemSize)
                         )
@@ -439,6 +467,7 @@ fun ControlCenterContent(onBack: () -> Unit = {}) {
                                     layerBlock = glassLayer,
                                     onDrawSurface = glassSurface
                                 )
+                                .controlInteraction(12)
                                 .paint(airplaneModeIcon, colorFilter = iconColorFilter)
                                 .size(itemSize)
                         )

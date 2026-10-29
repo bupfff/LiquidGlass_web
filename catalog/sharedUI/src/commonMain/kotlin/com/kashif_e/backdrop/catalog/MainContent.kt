@@ -20,16 +20,19 @@ import com.kashif_e.backdrop.catalog.destinations.ProgressiveBlurContent
 import com.kashif_e.backdrop.catalog.destinations.ScrollContainerContent
 import com.kashif_e.backdrop.catalog.destinations.SliderContent
 import com.kashif_e.backdrop.catalog.destinations.ToggleContent
+import com.kashif_e.backdrop.catalog.destinations.PhoneShowcaseContent
 
 @Composable
 fun MainContent() {
     var destination by rememberSaveable { mutableStateOf(CatalogDestination.Home) }
 
     when (destination) {
+        CatalogDestination.PhoneDemo -> PhoneShowcaseContent(
+            onOpenCatalog = { destination = CatalogDestination.Home }
+        )
         CatalogDestination.Home -> HomeContent(onNavigate = { destination = it })
-
         CatalogDestination.Buttons -> ButtonsContent(onBack = { destination = CatalogDestination.Home })
-    CatalogDestination.AllComponents -> AllComponentsContent(onBack = { destination = CatalogDestination.Home })
+        CatalogDestination.AllComponents -> AllComponentsContent(onBack = { destination = CatalogDestination.Home })
         CatalogDestination.Toggle -> ToggleContent(onBack = { destination = CatalogDestination.Home })
         CatalogDestination.Slider -> SliderContent(onBack = { destination = CatalogDestination.Home })
         CatalogDestination.BottomTabs -> BottomTabsContent(onBack = { destination = CatalogDestination.Home })
@@ -53,6 +56,8 @@ fun MainContent() {
         CatalogDestination.ProgressiveBlur -> ProgressiveBlurContent(onBack = { destination = CatalogDestination.Home })
         CatalogDestination.ScrollContainer -> ScrollContainerContent(onBack = { destination = CatalogDestination.Home })
         CatalogDestination.LazyScrollContainer -> LazyScrollContainerContent(onBack = { destination = CatalogDestination.Home })
-        CatalogDestination.Playground -> ShaderPlayGround()
+        CatalogDestination.Playground -> ShaderPlayGround(
+            onBack = { destination = CatalogDestination.Home }
+        )
     }
 }
